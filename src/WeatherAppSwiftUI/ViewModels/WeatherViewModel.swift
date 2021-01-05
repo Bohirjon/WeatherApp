@@ -42,16 +42,22 @@ extension WeatherViewModel : LocationServiceDelegate {
     }
     
     func onLocationMeasureFailed(error: Error) {
-        locationError = error.localizedDescription
+        DispatchQueue.main.async {
+            self.locationError = error.localizedDescription
+        }
     }
 }
 
 extension WeatherViewModel : WeatherServiceDelegate {
     func onWeatherFetched(weatherData: WeatherData) {
-        WeatherData = weatherData
+        DispatchQueue.main.async {
+            self.WeatherData = weatherData
+        }
     }
     
     func onWeatherFetchFailed(error: WeatherFetchingError) {
-        weatherError = error.message
+        DispatchQueue.main.async {
+            self.weatherError = error.message
+        }
     }
 }
