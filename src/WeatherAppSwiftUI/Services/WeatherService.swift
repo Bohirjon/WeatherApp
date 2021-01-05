@@ -54,7 +54,6 @@ class WeatherService: WeatherServiceProtocol {
         
         let urlSessionaDataTask = URLSession.shared.dataTask(with: url,completionHandler: { (data, response, error) in
             if let safeError = error {
-                print(safeError)
                 self.weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: safeError.localizedDescription))
                 return
             }
