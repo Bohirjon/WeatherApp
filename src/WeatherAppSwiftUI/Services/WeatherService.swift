@@ -15,49 +15,57 @@ class WeatherFetchingError: Error {
     }
 }
 
-protocol WeatherProtocol {
-    func fetchWeatherData(cityName: String, onDataRecieved:  @escaping (WeatherData)->Void, onFailture: @escaping (Error)->Void)
-    func fetchWeatherData(lon: CLLocationDegrees, lat: CLLocationDegrees, onDataRecieved:  @escaping (WeatherData)->Void, onFailture: @escaping (Error)->Void)
+protocol WeatherServiceDelegate {
+    func onWeatherFetched(weatherData: WeatherData)
+    func onWeatherFetchFailed(error: WeatherFetchingError)
 }
 
-class WeatherService: WeatherProtocol {
+protocol WeatherServiceProtocol {
+    var weatherServiceDelegate:WeatherServiceDelegate? { get set }
     
-    func fetchWeatherData(lon: CLLocationDegrees, lat: CLLocationDegrees, onDataRecieved: @escaping (WeatherData) -> Void, onFailture:@escaping (Error) -> Void) {
+    func fetchWeatherData(cityName: String)
+    func fetchWeatherData(lon: CLLocationDegrees, lat: CLLocationDegrees)
+}
+
+class WeatherService: WeatherServiceProtocol {
+    var weatherServiceDelegate: WeatherServiceDelegate?
+    
+    func fetchWeatherData(lon: CLLocationDegrees, lat: CLLocationDegrees) {
         let stringUrl = "\(AppConstanats.WeatherApiUrl)&lon=\(lon)&lat=\(lat)"
         if let url = URL(string: stringUrl) {
-            performRequest(url: url, onDataRecieved: onDataRecieved, onFailture: onFailture)
+            performRequest(url: url)
         } else {
-            onFailture(WeatherFetchingError(message: "Wrong url address or geo location address"))
+            weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: "Wrong url address or geo location address"))
         }
     }
     
-    func fetchWeatherData(cityName: String, onDataRecieved:  @escaping (WeatherData) -> Void, onFailture: @escaping (Error) -> Void) {
+    func fetchWeatherData(cityName: String) {
         let stringUrl  = "\(AppConstanats.WeatherApiUrl)&q=\(cityName)"
         
         if let url = URL(string: stringUrl) {
-            performRequest(url: url, onDataRecieved: onDataRecieved, onFailture: onFailture)
+            performRequest(url: url)
         }
         else {
-            onFailture(WeatherFetchingError(message: "Wrong url address or cityName!"))
+            weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: "Wrong url address or cityName!"))
         }
     }
     
-    private func performRequest(url:URL,  onDataRecieved: @escaping (WeatherData) -> Void, onFailture:@escaping (Error) -> Void) {
+    private func performRequest(url:URL) {
         
         let urlSessionaDataTask = URLSession.shared.dataTask(with: url,completionHandler: { (data, response, error) in
             if let safeError = error {
-                onFailture(safeError)
+                self.weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: safeError.localizedDescription))
                 return
             }
             if let safeData = data {
                 let weatherData = self.parseJson(jsonData: safeData)
                 if let safeWeatherData = weatherData {
-                    onDataRecieved(safeWeatherData)
+                    self.weatherServiceDelegate?.onWeatherFetched(weatherData:safeWeatherData)
                 } else {
-                    onFailture(WeatherFetchingError(message: "Could not parse recieved data!"))
+                    self.weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: "Could not parse recieved data!"))
                 }
             } else {
-                onFailture(WeatherFetchingError(message: "No data recieved from server!"))
+                self.weatherServiceDelegate?.onWeatherFetchFailed(error: WeatherFetchingError(message: "No data recieved from server!"))
             }
         })
         urlSessionaDataTask.resume()
