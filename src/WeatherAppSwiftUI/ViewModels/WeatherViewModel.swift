@@ -10,19 +10,20 @@ import Combine
 import CoreLocation
 
 class WeatherViewModel: ObservableObject {
-    private let weatherService: WeatherServiceProtocol
-    private let locationService: LocationServiceProtocol
+    private var weatherService: WeatherServiceProtocol
+    private var locationService: LocationServiceProtocol
     
     @Published var WeatherData:WeatherData?
     
-    @Published var searchText:String?
+    @Published var searchText:String = ""
     
     @Published var weatherError:String?
     @Published var locationError:String?
     
-    init(weatherService: WeatherService, locationService: LocationServiceProtocol) {
+    init(weatherService: WeatherServiceProtocol, locationService: LocationServiceProtocol) {
         self.weatherService = weatherService
         self.locationService = locationService
+        
         self.weatherService.weatherServiceDelegate = self
         self.locationService.locationServiceDelegate = self
     }
@@ -30,27 +31,27 @@ class WeatherViewModel: ObservableObject {
     func search(cityName:String)  {
         weatherService.fetchWeatherData(cityName: cityName)
     }
-    func getCurrentLocation()  {
+    func getWeatherByCurrentLocation()  {
         locationService.requestForLocation()
     }
 }
 
 extension WeatherViewModel : LocationServiceDelegate {
     func onLocationMeasured(lon: CLLocationDegrees, lat: CLLocationDegrees) {
-        
+        weatherService.fetchWeatherData(lon: lon, lat: lat)
     }
     
     func onLocationMeasureFailed(error: Error) {
-        
+        locationError = error.localizedDescription
     }
 }
 
 extension WeatherViewModel : WeatherServiceDelegate {
     func onWeatherFetched(weatherData: WeatherData) {
-        
+        WeatherData = weatherData
     }
     
     func onWeatherFetchFailed(error: WeatherFetchingError) {
-        
+        weatherError = error.message
     }
 }

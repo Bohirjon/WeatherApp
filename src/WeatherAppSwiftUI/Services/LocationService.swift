@@ -27,6 +27,7 @@ class LocationService: NSObject, LocationServiceProtocol {
     
     override init() {
         super.init()
+        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
     
@@ -45,6 +46,7 @@ extension LocationService : CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
         locationServiceDelegate?.onLocationMeasureFailed(error: error)
