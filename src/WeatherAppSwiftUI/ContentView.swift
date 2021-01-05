@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: WeatherViewModel
+    
     var body: some View {
         ZStack {
             Image("background")
@@ -17,29 +18,46 @@ struct ContentView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        
+                        viewModel.getWeatherByCurrentLocation()
                     }, label: {
                         Image(systemName: "paperplane.fill")
                             .foregroundColor(Color.init("foregroundColor"))
                     })
                     
-                    TextField("Search", text: $viewModel.searchText)
-                        .padding(.all, 10)
-                        .background(Color.gray.opacity(0.7))
-                        .cornerRadius(10.0)
+                    TextField("Search", text: $viewModel.searchText, onCommit: {
+                        viewModel.getWeatherByCityName()
+                    })
+                    .multilineTextAlignment(.trailing)
+                    .padding(.all, 10)
+                    .background(Color.gray.opacity(0.7))
+                    .cornerRadius(10.0)
                     
                     Button(action: {
-                        print(viewModel.searchText)
+                        viewModel.getWeatherByCityName()
                     }, label: {
                         Image(systemName: "magnifyingglass")
                             .foregroundColor(Color.init("foregroundColor"))
                     })
                 }
-                HStack {
+                VStack(alignment: .trailing) {
+                    HStack {
+                        Spacer()
+                        Image(systemName: "cloud.rain")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(Color.init("foregroundColor"))
+                            .frame(width: 100, height: 100)
+                    }
+                    if viewModel.weatherData != nil {
+                        Text("\(String(format: "%.1f", viewModel.weatherData!.main.temp))ºC")
+                            .font(.custom("", size: 87))
+                            .bold()
+                        
+                        Text("\(viewModel.weatherData!.name)")
+                            .font(.title)
+                    }
                     Spacer()
-                    Image(systemName: "cloud")
                 }
-                Spacer()
             }
             .padding(.leading, 10)
             .padding(.trailing, 10)
