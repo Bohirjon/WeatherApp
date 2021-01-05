@@ -13,7 +13,6 @@ class WeatherFetchingError: Error {
     init(message: String) {
         self.message = message
     }
-    
 }
 
 protocol WeatherProtocol {

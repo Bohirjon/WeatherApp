@@ -10,6 +10,7 @@
 		06A369B525A370E1001DF16D /* WeatherService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A369B425A370E1001DF16D /* WeatherService.swift */; };
 		06A369BB25A371DA001DF16D /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A369BA25A371DA001DF16D /* WeatherData.swift */; };
 		06A369BE25A3A8B8001DF16D /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A369BD25A3A8B8001DF16D /* AppConstants.swift */; };
+		06E1174625A4378D00D8C857 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06E1174525A4378D00D8C857 /* LocationService.swift */; };
 		06F7D31C25A2FA3500EE64C8 /* WeatherAppSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D31B25A2FA3500EE64C8 /* WeatherAppSwiftUIApp.swift */; };
 		06F7D31E25A2FA3500EE64C8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F7D31D25A2FA3500EE64C8 /* ContentView.swift */; };
 		06F7D32025A2FA3700EE64C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06F7D31F25A2FA3700EE64C8 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		06A369B425A370E1001DF16D /* WeatherService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherService.swift; sourceTree = "<group>"; };
 		06A369BA25A371DA001DF16D /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		06A369BD25A3A8B8001DF16D /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		06E1174525A4378D00D8C857 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		06F7D31825A2FA3500EE64C8 /* WeatherAppSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherAppSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06F7D31B25A2FA3500EE64C8 /* WeatherAppSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppSwiftUIApp.swift; sourceTree = "<group>"; };
 		06F7D31D25A2FA3500EE64C8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				06A369B425A370E1001DF16D /* WeatherService.swift */,
+				06E1174525A4378D00D8C857 /* LocationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				06A369B525A370E1001DF16D /* WeatherService.swift in Sources */,
 				06A369BB25A371DA001DF16D /* WeatherData.swift in Sources */,
 				06F7D31C25A2FA3500EE64C8 /* WeatherAppSwiftUIApp.swift in Sources */,
+				06E1174625A4378D00D8C857 /* LocationService.swift in Sources */,
 				06A369BE25A3A8B8001DF16D /* AppConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
