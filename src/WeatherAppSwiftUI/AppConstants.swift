@@ -6,6 +6,7 @@
 //
 
 import Foundation
-struct AppConstanats {
+
+struct AppConstants {
     static let WeatherApiUrl = "http://api.openweathermap.org/data/2.5/weather?appid=7d5cd18fb9150214195a6c4e68cca00d&units=metric"
 }

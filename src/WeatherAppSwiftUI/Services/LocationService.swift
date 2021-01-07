@@ -10,12 +10,12 @@ import CoreLocation
 
 protocol LocationServiceDelegate {
     func onLocationMeasured(lon: CLLocationDegrees, lat: CLLocationDegrees)
-    func onLocationMeasureFailed(error:Error)
+    func onLocationMeasureFailed(error: Error)
 }
 
 protocol LocationServiceProtocol {
     var locationServiceDelegate: LocationServiceDelegate? { get set }
-    
+
     func requestForLocation()
 }
 
@@ -24,13 +24,13 @@ protocol LocationServiceProtocol {
 class LocationService: NSObject, LocationServiceProtocol {
     private let locationManager = CLLocationManager()
     var locationServiceDelegate: LocationServiceDelegate?
-    
+
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
-    
+
     func requestForLocation() {
         locationManager.requestLocation()
     }
@@ -38,15 +38,15 @@ class LocationService: NSObject, LocationServiceProtocol {
 
 //Mark: - LocationManagerDelegate
 
-extension LocationService : CLLocationManagerDelegate {
-    
+extension LocationService: CLLocationManagerDelegate {
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             locationServiceDelegate?.onLocationMeasured(lon: location.coordinate.longitude, lat: location.coordinate.latitude)
             locationManager.stopUpdatingLocation()
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
         locationServiceDelegate?.onLocationMeasureFailed(error: error)
